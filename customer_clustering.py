@@ -26,17 +26,8 @@ plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
 print("\n步骤2: 加载您的数据")
-# =============================================
-# 重要：请在这里设置您的CSV文件路径
-# =============================================
 
-# 方法1：如果CSV文件在当前文件夹中，直接写文件名
 csv_file_path = "E:\\大二上材料\\市场营销学原理\\作业四\\used_data.csv"  # 请将 'your_data.csv' 替换为您的实际文件名
-
-# 方法2：如果CSV文件在其他文件夹，使用完整路径（示例）
-# csv_file_path = r'C:\Users\YourName\Documents\customer_data.csv'  # Windows路径示例
-# csv_file_path = '/Users/YourName/Documents/customer_data.csv'  # Mac路径示例
-
 try:
     # 读取CSV文件
     df = pd.read_csv(csv_file_path)
@@ -65,13 +56,7 @@ print(df.columns.tolist())
 print("\n数据基本信息:")
 print(df.info())
 
-# =============================================
-# 根据您的数据结构映射列名
-# =============================================
-# 如果您的列名与代码中使用的不同，请在这里修改映射
-# 第一列：顾客id，第二列：总金额数，第三列：订单数量，第四列：平均订单价值，第五列：电子产品消费
-
-# 方法1：如果您的CSV有表头且列名就是以下名称，不需要修改
+#CSV有表头且列名就是以下名称，
 expected_columns = {
     'customer_id': df.columns[0],  # 第一列：顾客id
     'total_spent': df.columns[1],   # 第二列：总金额数
@@ -304,55 +289,13 @@ for cluster_id in range(final_k):
     print(f"      • 电子产品消费: ¥{cluster_mean['Electronics_amount']:.0f} "
           f"({'+' if cluster_mean['Electronics_amount'] > total_mean['Electronics_amount'] else ''}"
           f"{(cluster_mean['Electronics_amount']/total_mean['Electronics_amount']-1)*100:.0f}%)")
-    
-    # 生成业务建议
-    print(f"   💡 营销建议:")
-    
-    suggestions = []
-    if cluster_mean['total_spent'] > total_mean['total_spent'] * 1.2:
-        suggestions.append("VIP客户，重点维护")
-    elif cluster_mean['total_spent'] < total_mean['total_spent'] * 0.8:
-        suggestions.append("低价值客户，需要提升消费")
-    
-    if cluster_mean['num_orders'] > total_mean['num_orders'] * 1.2:
-        suggestions.append("高频客户，推荐会员计划")
-    elif cluster_mean['num_orders'] < total_mean['num_orders'] * 0.8:
-        suggestions.append("低频客户，需要唤醒策略")
-    
-    if cluster_mean['avg_order_value'] > total_mean['avg_order_value'] * 1.2:
-        suggestions.append("高客单价客户，适合推送高端产品")
-    elif cluster_mean['avg_order_value'] < total_mean['avg_order_value'] * 0.8:
-        suggestions.append("低客单价客户，适合捆绑销售提升客单价")
-    
-    if cluster_mean['Electronics_amount'] > total_mean['Electronics_amount'] * 1.3:
-        suggestions.append("科技产品爱好者，推送新品和配件")
-    elif cluster_mean['Electronics_amount'] < total_mean['Electronics_amount'] * 0.7:
-        suggestions.append("对电子产品兴趣低，尝试交叉销售")
-    
-    if not suggestions:
-        suggestions.append("中等价值客户，适合常规营销活动")
-    
-    for suggestion in suggestions:
-        print(f"      • {suggestion}")
-
-print("\n" + "=" * 60)
-print("✅ 分析完成！")
-
+   
 # 保存结果
 output_file = 'customer_clustering_results.csv'
 df_clean.to_csv(output_file, index=False, encoding='utf-8-sig')
-print(f"📁 结果已保存到: {output_file}")
-print(f"📊 图表已保存为: k_value_selection.png, cluster_distributions.png, cluster_comparison.png")
+print(f"结果已保存到: {output_file}")
+print(f"图表已保存为: k_value_selection.png, cluster_distributions.png, cluster_comparison.png")
 
-print("\n🎯 下一步行动:")
-print("1. 查看生成的图表文件了解聚类效果")
-print("2. 打开 customer_clustering_results.csv 查看详细分类结果")
-print("3. 根据业务报告制定针对性的营销策略")
 
 # 显示完成消息
-print("\n" + "🎉 恭喜！客户聚类分析已完成！")
-
-# 显示最终数据预览
-print("\n最终数据预览（前10行）:")
-
-print(df_clean[['customer_id', 'total_spent', 'num_orders', 'avg_order_value', 'Electronics_amount', 'cluster']].head(10))
+print("客户聚类分析已完成")
